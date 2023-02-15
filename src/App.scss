@@ -1,0 +1,85 @@
+.App {
+  // Global Font
+  font-family: 'Poppins', sans-serif;
+  // Main Container
+  .main-container {
+    background-color: #eef3fb;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+
+    header {
+      text-align: center;
+      .header-top-section {
+        // border: 2px dotted white;
+
+        .get-estimate-input {
+          border-radius: 0 !important;
+          height: 3rem;
+          margin-right: -2rem !important;
+        }
+        .get-estimate-btn {
+          border-radius: 0 !important;
+          background-color: white;
+          color: slategray;
+          height: 3rem;
+        }
+      }
+      .header-bottom-section {
+        color: white;
+        .estimate-box {
+          width: 100%;
+          height: 200px;
+          h2 {
+            font-weight: 700;
+            font-size: 2.5rem;
+          }
+        }
+        .left-blue-box {
+          background-color: #008fff;
+        }
+        .right-orange-box {
+          background-color: #f26e21;
+        }
+      }
+    }
+    .section-1 {
+      .section-1-row-2 {
+        .title-box {
+          color: gray;
+        }
+        .number-box {
+          .number-sign {
+            font-size: 1.5rem;
+          }
+          .number {
+            font-size: 4.5rem;
+          }
+        }
+      }
+      .section-1-row-3 {
+        .title-box {
+          color: gray;
+        }
+        .number-box {
+          // border: 2px dotted dodgerblue;
+          margin-top: -1.5rem !important;
+          .number-sign {
+            font-size: 1.5rem;
+          }
+          .number {
+            font-size: 3rem;
+          }
+        }
+      }
+    }
+
+    .section-2 {
+      // background-color: #008fff;
+      // color: white;
+      .a-line {
+        border-top: 5px dotted red !important;
+        background-color: red;
+      }
+    }
+  }
+}
