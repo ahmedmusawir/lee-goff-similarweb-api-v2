@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import millify from 'millify';
 import data from '../data';
 // import data from '../data2';
 // import data from '../data3';
+// import data from '../data4';
+// import data from '../data5';
 import SectionOne from '../../components/SectionOne';
 import SectionTwo from '../../components/SectionTwo';
 
@@ -16,32 +19,36 @@ function HomePage() {
         <div className='row'>
           <section className='col-md-8 mx-auto'>
             <div className='row header-top-section mx-auto'>
-              <div className='col-sm-8'>
+              <div className='col-sm-8 header-inputs'>
                 <input
                   type='text'
                   className='form-control get-estimate-input'
                   placeholder='Enter your domain URL or traffic count'
                 />
               </div>
-              <div className='col-sm-4'>
+              <div className='col-sm-4 header-inputs'>
                 <button className='btn btn-block btn-info get-estimate-btn'>
                   Get Estimate
                 </button>
               </div>
             </div>
             <div className='row header-bottom-section mt-5'>
-              <div className='col-sm-6'>
-                <article className='left-blue-box estimate-box d-flex flex-column align-items-center justify-content-center'>
-                  <h2>10,236</h2>
-                  <h5>Unique Visitors</h5>
-                </article>
-              </div>
-              <div className='col-sm-6'>
-                <article className='right-orange-box estimate-box estimate-box d-flex flex-column align-items-center justify-content-center'>
-                  <h2>2,046</h2>
-                  <h5>Lead Gaurantee</h5>
-                </article>
-              </div>
+              {apiData && (
+                <>
+                  <div className='col-sm-6'>
+                    <article className='left-blue-box estimate-box d-flex flex-column align-items-center justify-content-center'>
+                      <h2>{millify(apiData?.Engagments?.Visits)}</h2>
+                      <h5>Unique Visitors</h5>
+                    </article>
+                  </div>
+                  <div className='col-sm-6'>
+                    <article className='right-orange-box estimate-box estimate-box d-flex flex-column align-items-center justify-content-center'>
+                      <h2>{millify(apiData?.Engagments?.Visits * 0.2)}</h2>
+                      <h5>Lead Gaurantee</h5>
+                    </article>
+                  </div>
+                </>
+              )}
             </div>
           </section>
         </div>
@@ -66,6 +73,7 @@ function HomePage() {
         <div className='row section-2 mt-5'>
           {apiData && (
             <SectionTwo
+              siteName={apiData?.SiteName}
               direct={apiData?.TrafficSources?.Direct}
               referrals={apiData?.TrafficSources?.Referrals}
               search={apiData?.TrafficSources?.Search}

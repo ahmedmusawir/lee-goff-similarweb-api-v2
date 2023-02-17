@@ -18,7 +18,7 @@ const SectionOne = ({
     <>
       <div className='col-md-12'>
         <article className='text-center'>
-          <h1 className='text-info'>{siteName}</h1>
+          <h1 className='mb-4'>{siteName}</h1>
           <img className='header-img' src={imgUrl} alt='' />
         </article>
       </div>
@@ -32,10 +32,10 @@ const SectionOne = ({
               </h6>
             </span>
             <div className='number-box'>
-              <span className='number-sign text-info'>#</span>
+              <span className='number-sign'>#</span>
               <span className='number'>{globalRank}</span>
 
-              <p className='text-info'>
+              <p className=''>
                 <i className='bi bi-globe'></i>
                 <small></small>
               </p>
@@ -50,10 +50,10 @@ const SectionOne = ({
               </h6>
             </span>
             <div className='number-box'>
-              <span className='number-sign text-info'>#</span>
+              <span className='number-sign'>#</span>
               <span className='number'>{countryRank}</span>
               <p>
-                <small className='text-info'>United States</small>
+                <small className=''>United States</small>
               </p>
             </div>
           </div>
@@ -65,10 +65,10 @@ const SectionOne = ({
               </h6>
             </span>
             <div className='number-box w-100'>
-              <span className='number-sign text-info'>#</span>
+              <span className='number-sign'>#</span>
               <span className='number'>{categoryRank}</span>
               <p>
-                <small className='text-info category-long-text'>
+                <small className='category-long-text'>
                   {/* {category} */}
                   {_.truncate(category, { length: 40 })}
                 </small>

@@ -2,9 +2,10 @@ import React from 'react';
 import millify from 'millify';
 import BarChart from './BarChart';
 
-import { getMonths } from '../utils/getDataArrays';
+import { getMonths, getMonthlyChange } from '../utils/getDataArrays';
 
 const SectionTwo = ({
+  siteName,
   direct,
   referrals,
   search,
@@ -21,31 +22,41 @@ const SectionTwo = ({
   // console.log('Months', monthLabels);
   const numberData = Object.values(monthlyTotalVisits);
   // console.log('Numbers', numberData);
+  const analisys = getMonthlyChange(numberData);
+  console.log('Analysis:', analisys);
 
   return (
     <>
       <article className='text-content py-5 mx-5'>
-        <h3>amazon.com Traffic and Engagement Analysis</h3>
+        <h3>{siteName} Traffic and Engagement Analysis</h3>
         <p>
           <small>
-            amazon.com's traffic has decreased by 8.30% compared to last month
-            (Desktop). Click below to reveal how well amazon.com meets visitor
-            expectations and captures their interest.
+            amazon.com's traffic has changed by{' '}
+            {analisys.isPositive
+              ? '+ ' + analisys.monthlyChangePercentage
+              : '- ' + analisys.monthlyChangePercentage}
+            {'%'} compared to last month (Desktop). See below to reveal how well
+            amazon.com meets visitor expectations and captures their interest.
           </small>
         </p>
       </article>
-      <article className='other-content container'>
+      <article className='other-content container pb-5'>
         <div className='row'>
           <div className='col-md-3'>
             <h6 className='text-center'>Traffic & Engagement Last Month</h6>
-            <aside className='p-5 rounded'>
+            <aside className='px-5 rounded number-box'>
               <span className='text-block mb-5'>
                 <small>Total Visits</small>
                 <h5>{millify(totalVisits)}</h5>
               </span>
               <span className='text-block mb-5'>
                 <small>Last Month Change</small>
-                <h5>Not Sure</h5>
+                <h5>
+                  {analisys.isPositive
+                    ? '+ ' + analisys.monthlyChangePercentage
+                    : '- ' + analisys.monthlyChangePercentage}
+                  {'%'}
+                </h5>
               </span>
               <span className='text-block mb-5'>
                 <small>Avg Visit Duration</small>
@@ -66,7 +77,7 @@ const SectionTwo = ({
           </div>
           <div className='col-md-3'>
             <h6 className='text-center'>Traffic Sources</h6>
-            <aside className='p-5 rounded'>
+            <aside className='px-5 rounded number-box'>
               <span className='text-block mb-5'>
                 <small>Direct</small>
                 <h5>{millify(direct * 100)}</h5>
