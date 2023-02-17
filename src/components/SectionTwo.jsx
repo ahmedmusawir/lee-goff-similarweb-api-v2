@@ -23,7 +23,7 @@ const SectionTwo = ({
   const numberData = Object.values(monthlyTotalVisits);
   // console.log('Numbers', numberData);
   const analisys = getMonthlyChange(numberData);
-  console.log('Analysis:', analisys);
+  // console.log('Analysis:', analisys);
 
   return (
     <>
@@ -31,7 +31,7 @@ const SectionTwo = ({
         <h3>{siteName} Traffic and Engagement Analysis</h3>
         <p>
           <small>
-            amazon.com's traffic has changed by{' '}
+            {siteName}'s traffic has changed by{' '}
             {analisys.isPositive
               ? '+ ' + analisys.monthlyChangePercentage
               : '- ' + analisys.monthlyChangePercentage}

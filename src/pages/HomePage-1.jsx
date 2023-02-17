@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import millify from 'millify';
-import data from '../data';
-// import data from '../data2';
-// import data from '../data3';
-// import data from '../data4';
-// import data from '../data5';
-import SectionOne from '../../components/SectionOne';
-import SectionTwo from '../../components/SectionTwo';
+import data from './data';
+// import data from './data2';
+// import data from './data3';
+// import data from './data4';
+// import data from './data5';
+import SectionOne from '../components/SectionOne';
+import SectionTwo from '../components/SectionTwo';
 
 function HomePage() {
   // console.log('Data:', data[0]);
