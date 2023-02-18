@@ -1,5 +1,29 @@
 import moment from 'moment';
 import millify from 'millify';
+import emailjs from '@emailjs/browser';
+
+const sendEmail = (data) => {
+  const templateParams = {
+    message: data,
+  };
+
+  emailjs
+    .send(
+      'service_yfdtacg', // SERVICE ID
+      'template_hym4qar', // TEMPLATE ID
+      templateParams,
+      'WGdP1_0dhm0s_-PSD' // PUBLIC KEY
+    )
+    .then(
+      (result) => {
+        console.log(result.text);
+        console.log('message sent');
+      },
+      (error) => {
+        console.log(error.text);
+      }
+    );
+};
 
 const getMonths = (obj) => {
   const dates = Object.keys(obj);
@@ -50,4 +74,4 @@ const getMonthlyChange = (numberData) => {
   };
 };
 
-export { getMonths, getMonthlyChange };
+export { getMonths, getMonthlyChange, sendEmail };

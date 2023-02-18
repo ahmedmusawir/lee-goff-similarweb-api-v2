@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import data from './data';
 // import data from './data2';
 // import data from './data3';
-import data from './data4';
+import data from './data.amazon';
 // import data from './data5';
 import Header from '../components/Header';
 import SectionOne from '../components/SectionOne';
@@ -11,9 +11,21 @@ import SectionTwo from '../components/SectionTwo';
 function HomePage() {
   const [apiData, setApiData] = useState(data[0]);
   const [isNumber, setIsNumber] = useState(false);
+  const [rapidApiKey, setRapidApiKey] = useState('');
+  const [emailApiKey, setEmailApiKey] = useState('');
 
-  // console.log('ApiData:', apiData);
+  console.log('ApiData:', apiData);
   // console.log('Data:', data[0]);
+
+  useEffect(() => {
+    const getKeys = async () => {
+      await setRapidApiKey(
+        '7f4a47cd41msh94196ed5b449e80p161bf6jsnc0b28eef2ddd'
+      );
+    };
+
+    getKeys();
+  }, []);
 
   return (
     <main className='container-fluid main-container'>
@@ -24,6 +36,8 @@ function HomePage() {
             generatedLeads={apiData?.Engagments?.Visits * 0.2}
             setApiData={setApiData}
             setIsNumber={setIsNumber}
+            rapidApiKey={rapidApiKey}
+            emailApiKey={emailApiKey}
           />
         )}
       </header>
