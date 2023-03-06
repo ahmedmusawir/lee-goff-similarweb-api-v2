@@ -8,8 +8,6 @@ import {
 } from '../utils/getUtils';
 import http from '../utils/httpService';
 
-// import data from '../data-shopee.json';
-
 const Header = ({
   totalVisits,
   generatedLeads,
@@ -25,6 +23,7 @@ const Header = ({
   const [totalVisitsByUser, setTotalVisitsByUser] = useState(null);
   const [generatedLeadsByUsers, setGeneratedLeadsByUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isHeaderReset, setIsHeaderReset] = useState(false);
 
   const validateData = async (e) => {
     setIsLoading(true);
@@ -34,6 +33,8 @@ const Header = ({
       if (isNaN(domainName)) {
         //THIS MAKES API BASED DATA TO SHOW UP
         setIsNumber(false);
+        setIsHeaderReset(false);
+
         //REMOVING MANUAL NUMBER VIEW
         setTotalVisitsByUser(null);
 
@@ -42,12 +43,6 @@ const Header = ({
 
         if (domainVal) {
           return setError(domainVal);
-        }
-
-        if (totalVisits <= 5000) {
-          console.log('Less than 5000', Math.ceil(totalVisits));
-        } else {
-          console.log('More than 5000', Math.ceil(totalVisits));
         }
 
         //MAKING API CALL TO SIMILAR WEB RAPID API
@@ -68,15 +63,17 @@ const Header = ({
           });
           // console.log('Raw API data:', data.data?.Engagments?.Visits);
 
-          // VALIDATE MONTHLY VISITS
+          // VALIDATE MONTHLY VISITS WHEN VISITOR LESS THAN 5000
           const apiTotalVisits = data.data?.Engagments?.Visits;
           const monthlyVisits = validateMonthlyVisits(apiTotalVisits);
 
           if (monthlyVisits) {
             setIsNumber(true);
+            setIsHeaderReset(true);
 
             return setError(monthlyVisits);
           }
+          // WHEN MONTHLY VISITOR NUMBER MORE THAN 5000
           setApiData(data.data);
           setIsLoading(false);
           setError('');
@@ -100,6 +97,8 @@ const Header = ({
       else {
         //THIS MAKES API DATA DISAPPEAR AND ONLY NUMER DATA TO SHOW UP
         setIsNumber(true);
+        setIsHeaderReset(false);
+
         //THIS DISABLES THE LOADING WHEN NUMBER IS INSERTED
         setIsLoading(false);
         setTotalVisitsByUser(domainName);
@@ -108,6 +107,8 @@ const Header = ({
       }
     } else {
       setIsLoading(false);
+      setIsHeaderReset(false);
+
       setError('Input is Required!');
     }
   };
@@ -134,7 +135,7 @@ const Header = ({
           </div>
         </div>
         <div className='row header-bottom-section mt-5'>
-          {!totalVisitsByUser && (
+          {!isHeaderReset && !totalVisitsByUser && (
             <>
               <div className='col-sm-6'>
                 <article className='left-blue-box estimate-box d-flex flex-column align-items-center justify-content-center'>
@@ -151,7 +152,7 @@ const Header = ({
             </>
           )}
 
-          {totalVisitsByUser && (
+          {!isHeaderReset && totalVisitsByUser && (
             <>
               <div className='col-sm-6'>
                 <article className='left-blue-box estimate-box d-flex flex-column align-items-center justify-content-center'>
@@ -162,6 +163,23 @@ const Header = ({
               <div className='col-sm-6'>
                 <article className='right-orange-box estimate-box estimate-box d-flex flex-column align-items-center justify-content-center'>
                   <h2>{millify(generatedLeadsByUsers)}</h2>
+                  <h5>Lead Gaurantee</h5>
+                </article>
+              </div>
+            </>
+          )}
+
+          {isHeaderReset && (
+            <>
+              <div className='col-sm-6'>
+                <article className='left-blue-box estimate-box d-flex flex-column align-items-center justify-content-center'>
+                  <h2>0</h2>
+                  <h5>Unique Visitors</h5>
+                </article>
+              </div>
+              <div className='col-sm-6'>
+                <article className='right-orange-box estimate-box estimate-box d-flex flex-column align-items-center justify-content-center'>
+                  <h2>0</h2>
                   <h5>Lead Gaurantee</h5>
                 </article>
               </div>
