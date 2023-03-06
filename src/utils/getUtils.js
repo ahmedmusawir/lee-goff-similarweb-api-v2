@@ -1,18 +1,27 @@
 import moment from 'moment';
-import millify from 'millify';
 import emailjs from '@emailjs/browser';
 
-const sendEmail = (data) => {
+const sendEmail = (
+  domainName,
+  emailPublicKey,
+  emailServiceKey,
+  emailTemplateKey
+) => {
   const templateParams = {
-    message: data,
+    message: domainName,
   };
+
+  // console.log('from sendmail', { domainName });
+  // console.log({ emailPublicKey });
+  // console.log({ emailServiceKey });
+  // console.log({ emailTemplateKey });
 
   emailjs
     .send(
-      'service_yfdtacg', // SERVICE ID
-      'template_hym4qar', // TEMPLATE ID
+      emailServiceKey, // SERVICE ID
+      emailTemplateKey, // TEMPLATE ID
       templateParams,
-      'WGdP1_0dhm0s_-PSD' // PUBLIC KEY
+      emailPublicKey // PUBLIC KEY
     )
     .then(
       (result) => {
@@ -74,4 +83,30 @@ const getMonthlyChange = (numberData) => {
   };
 };
 
-export { getMonths, getMonthlyChange, sendEmail };
+const validateDomainName = (domainName) => {
+  // Create a regular expression to validate the domain name
+  const dn =
+    /^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9\-]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0–9\-]{2,30}\.[a–zA–Z]{2,3})$/;
+
+  if (dn.test(domainName)) {
+    return null;
+  } else {
+    return 'A valid Domain Name (no http, slashes or colons) or a Number is requied!';
+  }
+};
+
+const validateMonthlyVisits = (monthlyVisits) => {
+  if (monthlyVisits <= 5000) {
+    return 'Your monthly web traffic is less than 5000. Sorry, No SimilarWeb API data available. Please insert total monthly visitor number manually to calculate lead count';
+  } else {
+    return null;
+  }
+};
+
+export {
+  getMonths,
+  getMonthlyChange,
+  sendEmail,
+  validateDomainName,
+  validateMonthlyVisits,
+};

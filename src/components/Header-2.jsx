@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import millify from 'millify';
+import axios from 'axios';
 import { Audio } from 'react-loader-spinner';
-import {
-  sendEmail,
-  validateDomainName,
-  validateMonthlyVisits,
-} from '../utils/getUtils';
-import http from '../utils/httpService';
+import { isError } from 'lodash';
+import { sendEmail } from '../utils/getDataArrays';
 
-// import data from '../data-shopee.json';
+import data from '../pages/data.shopee';
 
 const Header = ({
   totalVisits,
@@ -16,9 +13,6 @@ const Header = ({
   setApiData,
   setIsNumber,
   rapidApiKey,
-  emailPublicKey,
-  emailServiceKey,
-  emailTemplateKey,
 }) => {
   const [domainName, setDomainName] = useState('');
   const [error, setError] = useState('');
@@ -26,95 +20,59 @@ const Header = ({
   const [generatedLeadsByUsers, setGeneratedLeadsByUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateData = async (e) => {
+  const validateData = (e) => {
     setIsLoading(true);
 
     if (domainName) {
-      //CHECKING FOR TEXT DATA
       if (isNaN(domainName)) {
         //THIS MAKES API BASED DATA TO SHOW UP
         setIsNumber(false);
-        //REMOVING MANUAL NUMBER VIEW
-        setTotalVisitsByUser(null);
-
-        // VALIDATING DOMAIN NAME STRING
-        const domainVal = validateDomainName(domainName);
-
-        if (domainVal) {
-          return setError(domainVal);
-        }
-
-        if (totalVisits <= 5000) {
-          console.log('Less than 5000', Math.ceil(totalVisits));
-        } else {
-          console.log('More than 5000', Math.ceil(totalVisits));
-        }
-
+        console.log('Input is text');
         //MAKING API CALL TO SIMILAR WEB RAPID API
-        // console.log('Rapid Api key from header:', rapidApiKey);
-        const options = {
-          url: 'https://similar-web.p.rapidapi.com/get-analysis',
-          params: { domain: domainName.toLowerCase() },
-          headers: {
-            'X-RapidAPI-Key': rapidApiKey,
-            'X-RapidAPI-Host': 'similar-web.p.rapidapi.com',
-          },
-        };
 
-        try {
-          const data = await http.get(options.url, {
-            params: options.params,
-            headers: options.headers,
-          });
-          // console.log('Raw API data:', data.data?.Engagments?.Visits);
+        // const options = {
+        //   method: 'GET',
+        //   url: 'https://similar-web.p.rapidapi.com/get-analysis',
+        //   params: { domain: domainName },
+        //   headers: {
+        //     'X-RapidAPI-Key': rapidApiKey,
+        //     'X-RapidAPI-Host': 'similar-web.p.rapidapi.com',
+        //   },
+        // };
 
-          // VALIDATE MONTHLY VISITS
-          const apiTotalVisits = data.data?.Engagments?.Visits;
-          const monthlyVisits = validateMonthlyVisits(apiTotalVisits);
+        // axios
+        //   .request(options)
+        //   .then(function (response) {
+        //     console.log(response.data);
+        //     setApiData(response.data);
+        //     setIsLoading(false);
+        //     setError('');
+        //   })
+        //   .catch(function (error) {
+        //     console.error(error);
+        //   });
 
-          if (monthlyVisits) {
-            setIsNumber(true);
-
-            return setError(monthlyVisits);
-          }
-          setApiData(data.data);
-          setIsLoading(false);
-          setError('');
-        } catch (error) {
-          const errorMessage =
-            error.response.data.message +
-            ' Check & Update SimilarWeb API Key at WP Admin Backend... ';
-
-          setError(errorMessage);
-        }
-
-        //SENDING EMAIL TO TARGET EMAIL ADDRESS
-        sendEmail(
-          domainName,
-          emailPublicKey,
-          emailServiceKey,
-          emailTemplateKey
-        );
-      }
-      //CHECKING FOR NUMBER DATA
-      else {
+        // setApiData(data[0]);
+        // sendEmail(domainName);
+      } else {
+        console.log('Input is a number');
         //THIS MAKES API DATA DISAPPEAR AND ONLY NUMER DATA TO SHOW UP
         setIsNumber(true);
         //THIS DISABLES THE LOADING WHEN NUMBER IS INSERTED
         setIsLoading(false);
         setTotalVisitsByUser(domainName);
-        setGeneratedLeadsByUsers(domainName * 0.02);
+        setGeneratedLeadsByUsers(domainName * 0.2);
         setError('');
       }
     } else {
       setIsLoading(false);
-      setError('Input is Required!');
+      setError('Input is requied!');
     }
   };
 
   return (
     <div className='row'>
-      <section className='col-sm-12 col-md-9 mx-auto'>
+      <section className='col-md-8 mx-auto'>
         <div className='row header-top-section mx-auto'>
           <div className='col-sm-8 header-inputs'>
             <input
@@ -180,8 +138,7 @@ const Header = ({
               />
             </div>
           )}
-
-          {error && (
+          {isError && (
             <div className='text-center mx-auto text-warning'>
               <h4 className='text-warning pt-5'>{error}</h4>
             </div>

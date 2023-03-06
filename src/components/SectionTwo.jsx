@@ -2,7 +2,7 @@ import React from 'react';
 import millify from 'millify';
 import BarChart from './BarChart';
 
-import { getMonths, getMonthlyChange } from '../utils/getDataArrays';
+import { getMonths, getMonthlyChange } from '../utils/getUtils';
 
 const SectionTwo = ({
   siteName,

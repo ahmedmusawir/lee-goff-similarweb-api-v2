@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Page from '../../components/layouts/Page';
 import Content from '../../components/layouts/Content';
-import http from '../../services/httpService';
+import http from '../../utils/httpService';
 
 const apiEndpoint = 'https://jsonplaceholder.typicode.com/posts';
 

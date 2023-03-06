@@ -14,7 +14,7 @@ function HomePage() {
   const [rapidApiKey, setRapidApiKey] = useState('');
   const [emailApiKey, setEmailApiKey] = useState('');
 
-  console.log('ApiData:', apiData);
+  // console.log('ApiData:', apiData);
   // console.log('Data:', data[0]);
 
   useEffect(() => {
